@@ -29,6 +29,8 @@ function indexBuzzWordInArray( { buzzWord } ){ //return -1 if not found, else re
 const arrayofWords = [
   {buzzWord:"c",points:"3",heard:"false"},{buzzWord:"2",points:"3",heard:"false"}  //delete this later
 ];
+var userScore = 0;
+
 app.use( express.static( 'public' ) );
 
 
@@ -50,20 +52,21 @@ app.route( '/buzzword' )
     }
     res.send( { success: isSuccessful } );
   } )
-  .put( ( req, res ) => { //return { 'buzzWord' : String, 'heard': Bool } as body, response is { 'success': true, newScore: Number }.  updates buzzword.  returns true and new score if successful, else false.
-    //body will contain the word to change, and the heard value.
+  .put( ( req, res ) => {
     let { heard } = req.body;
     let isSuccessful = false;
     let index = indexBuzzWordInArray( req.body );
-    if( index > -1 ){
+    let unusedWord = arrayofWords[ index ].heard === 'false';
+    console.log( `index ${ index } unusedWord ${ unusedWord }`);
+    if( index > -1  && unusedWord ){
       arrayofWords[ index ].heard = heard;
+      userScore += parseFloat( arrayofWords[ index ].points );
+      console.log( userScore );
       isSuccessful = true;
     }
-    //find if word is in array
-      //if so, change heard property
     res.send( { success: isSuccessful } );
   } )
-  .delete( ( req, res ) => { //body {'buzzWord': String }, resp. { 'success': true }, return true if successful
+  .delete( ( req, res ) => {
     let index = indexBuzzWordInArray( req.body );
 
     let isWordInArray = index > -1;
@@ -76,6 +79,7 @@ app.route( '/buzzword' )
 
 
 app.post( '/reset', ( req, res ) => { //body { 'reset': true }, resp. { 'success, etc'  resets server.  all buzzwords removed and scores = 0.}
+  console.log( 'reset' );
 
 } );
 
