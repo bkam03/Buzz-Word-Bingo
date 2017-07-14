@@ -12,6 +12,8 @@ app.use( express.static( 'public' ) );
   }
 */
 
+const arrayofWords = [];
+
 //get body parser.  use it on data coming in for posts.  look at urlencodedoptions in README.  use extended: true.  might be familiar in function.
 
 app.get( '/', ( req, res ) => { //empty body, render HTML( index.html ) by serving. check slack for this  static file.
@@ -20,7 +22,11 @@ app.get( '/', ( req, res ) => { //empty body, render HTML( index.html ) by servi
 
 app.route( '/buzzword' )
   .get( ( req, res ) => { //empty body, return a JSON 'buzzWords':[arrayofwords].  creates new buzzword object, returns true if successful, else false.
+    let isSuccessful = false;
 
+    res.json( { buzzWords: arrayofWords } );
+
+    return isSuccessful;
   } )
   .post( ( req, res ) => { //return object at top of this page as body.  response is the 'success' : true.  creates new buzzword object, return true, else false.
 
@@ -31,6 +37,7 @@ app.route( '/buzzword' )
   .delete( ( req, res ) => { //body {'buzzWord': String }, resp. { 'success': true }, return true if successful
 
   } );
+
 
 app.post( '/reset', ( req, res ) => { //body { 'reset': true }, resp. { 'success, etc'  resets server.  all buzzwords removed and scores = 0.}
 
