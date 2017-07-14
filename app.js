@@ -49,8 +49,12 @@ app.route( '/buzzword' )
     console.log( buzzword );
     let isSuccessful = isBuzzWordInArray( buzzword );
     console.log( isSuccessful );
-    ( isSuccessful ) ? arrayofWords.push( buzzword ) : false;
-    res.end();
+    if( isSuccessful ){
+      arrayofWords.push( buzzword );
+    }
+
+    res.send( { success: isSuccessful } );
+    //res.end();
   } )
   .put( ( req, res ) => { //return { 'buzzWord' : String, 'heard': Bool } as body, response is { 'success': true, newScore: Number }.  updates buzzword.  returns true and new score if successful, else false.
 
