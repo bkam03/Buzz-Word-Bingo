@@ -12,7 +12,15 @@ const bodyParser = require( 'body-parser' );
 */
 
 function isBuzzWordInArray( { buzzWord } ){
-  console.log( `checking ${ buzzWord }` );
+  let isValidWord = true;
+  for( var i = 0; i < arrayofWords.length; i++ ){
+    let currentComparisonWord = arrayofWords[ i ].buzzWord;
+    if( currentComparisonWord === buzzWord ){
+      isValidWord = false;
+      break;
+    }
+  }
+  return isValidWord;
 }
 
 const arrayofWords = [];
@@ -40,8 +48,8 @@ app.route( '/buzzword' )
     let buzzword = req.body;
     console.log( buzzword );
     let isSuccessful = isBuzzWordInArray( buzzword );
-
-    arrayofWords.push( buzzword );
+    console.log( isSuccessful );
+    ( isSuccessful ) ? arrayofWords.push( buzzword ) : false;
     res.end();
   } )
   .put( ( req, res ) => { //return { 'buzzWord' : String, 'heard': Bool } as body, response is { 'success': true, newScore: Number }.  updates buzzword.  returns true and new score if successful, else false.
