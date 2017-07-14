@@ -64,7 +64,14 @@ app.route( '/buzzword' )
     res.send( { success: isSuccessful } );
   } )
   .delete( ( req, res ) => { //body {'buzzWord': String }, resp. { 'success': true }, return true if successful
+    let index = indexBuzzWordInArray( req.body );
 
+    let isWordInArray = index > -1;
+    if( isWordInArray ){
+      arrayofWords.splice( index, 1 );
+    }
+
+     res.send( { success: isWordInArray } );
   } );
 
 
