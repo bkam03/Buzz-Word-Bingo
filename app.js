@@ -26,10 +26,10 @@ function indexBuzzWordInArray( { buzzWord } ){ //return -1 if not found, else re
   return indexMatchingWord;
 }
 
-const arrayofWords = [
+var arrayofWords = [
   {buzzWord:"c",points:"3",heard:"false"},{buzzWord:"2",points:"3",heard:"false"}  //delete this later
 ];
-var userScore = 0;
+var userScore = 10;  //change to 0 later
 
 app.use( express.static( 'public' ) );
 
@@ -79,11 +79,12 @@ app.route( '/buzzword' )
 
 
 app.post( '/reset', ( req, res ) => { //body { 'reset': true }, resp. { 'success, etc'  resets server.  all buzzwords removed and scores = 0.}
-  console.log( 'reset' );
-
+  arrayofWords = [];
+  userScore = 0;
+  console.log( arrayofWords, userScore );
+  res.send( { success: true } );
 } );
 
-//track this user's score somehow.
 
 
 
