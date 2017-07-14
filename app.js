@@ -1,7 +1,9 @@
 const express = require( 'express' );
 const app = express();
+const bodyParser = require( 'body-parser' );
 
 app.use( express.static( 'public' ) );
+
 //always send postman by x-www-form-urlencoded
 
 /*
@@ -14,6 +16,8 @@ app.use( express.static( 'public' ) );
 
 const arrayofWords = [];
 
+app.use( bodyParser.urlencoded( { extended: true } ) );
+
 //get body parser.  use it on data coming in for posts.  look at urlencodedoptions in README.  use extended: true.  might be familiar in function.
 
 app.get( '/', ( req, res ) => { //empty body, render HTML( index.html ) by serving. check slack for this  static file.
@@ -22,14 +26,18 @@ app.get( '/', ( req, res ) => { //empty body, render HTML( index.html ) by servi
 
 app.route( '/buzzword' )
   .get( ( req, res ) => { //empty body, return a JSON 'buzzWords':[arrayofwords].  creates new buzzword object, returns true if successful, else false.
-    let isSuccessful = false;
 
     res.json( { buzzWords: arrayofWords } );
 
-    return isSuccessful;
   } )
   .post( ( req, res ) => { //return object at top of this page as body.  response is the 'success' : true.  creates new buzzword object, return true, else false.
+    //receives buzzword key pairs
+    //parses payload
+    //puts into array
 
+    console.log( req.body );
+    arrayofWords.push( req.body );
+    res.end();
   } )
   .put( ( req, res ) => { //return { 'buzzWord' : String, 'heard': Bool } as body, response is { 'success': true, newScore: Number }.  updates buzzword.  returns true and new score if successful, else false.
 
